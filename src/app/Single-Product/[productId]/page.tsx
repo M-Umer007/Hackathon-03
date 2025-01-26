@@ -21,8 +21,8 @@ type Product = {
 };
 
 // You can use the params directly here in the App Router
-export default async function Test({ params }: { params: { productId: string } }) {
-  const { productId } = params;
+export default async function Test({ params }: { params: Promise<{ productId: string }> }) {
+  const { productId } = await params;
 
   const products: Product[] = await sanityFetch({ query: allProducts });
   const style: Product[] = await sanityFetch({
