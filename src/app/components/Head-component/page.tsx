@@ -23,7 +23,7 @@ export default function Head(){
         <div>
         <Link href="/Cart-page" >
           <Image
-          src={"/Buy 2.png"}
+          src={"https://thumbs.dreamstime.com/z/shopping-cart-icon-symbol-flat-shape-trolley-web-store-button-online-shop-logo-sign-vector-illustration-image-black-silhouette-196187637.jpg"}
           alt="Cart"
           width={20}
           height={20}
@@ -33,13 +33,8 @@ export default function Head(){
           <div>
           Cart</div>
           <div>
-          <Image
-          src={"/No.png"}
-          alt="No"
-          width={20}
-          height={20}
-          />
-        </div>
+
+          </div>
 
         </div>
       </div>
@@ -50,12 +45,6 @@ export default function Head(){
             <li>
           <Link href="/" >Home</Link>
               </li>
-            <li className="hidden sm:block">
-            <Link href="/Single-Product" >Single-Product</Link>
-               </li>
-            <li className="block sm:hidden ">
-            <Link href="/Single-Product" >page</Link>
-               </li>
             <li>
             <Link href="/products" >Product</Link>
             </li>

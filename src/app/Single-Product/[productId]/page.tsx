@@ -46,7 +46,7 @@ export default async function Test({ params }: { params: Promise<{ productId: st
 
           <div className="relative w-max">
             <Image
-              src="/Group 51.png"
+              src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAP8AAACUCAMAAABr5Q9hAAAAA1BMVEUBquUiMBV5AAAAO0lEQVR4nO3BAQ0AAADCoPdPbQ8HFAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAPwalAAAARCNrggAAAAASUVORK5CYII="
               alt="Shop Now"
               width={120}
               height={120}
@@ -57,7 +57,7 @@ export default async function Test({ params }: { params: Promise<{ productId: st
           </div>
           <p>{product.description}</p>
           <div className="w-max">
-            <Image src="/Button.png" alt="Shop Now" width={120} height={120} />
+            <Image src="https://wallpapers.com/images/hd/shop-now-button-black-background-27b6ebqxi85cmbud.jpg" alt="Shop Now" width={120} height={120} />
           </div>
         </div>
       </div>
