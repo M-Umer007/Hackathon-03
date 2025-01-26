@@ -77,7 +77,7 @@ export default async function Test({ params }: { params: Promise<{ productId: st
         <div>
           <div className="flex flex-col sm:flex-nowrap sm:flex-row justify-center gap-12 mx-auto my-5 overflow-x-auto">
             {style.map((item) => (
-              <div className="w-full sm:w-1/5 lg:w-1/5 xl:w-1/5" key={item._id}>
+              <div className="w-full h-full sm:w-1/5 lg:w-1/5 xl:w-1/5" key={item._id}>
                 <Image src={item.imageUrl} alt={item.title} width={300} height={300} className="object-cover w-full h-full" />
                 <div className="mt-4 text-center">
                   <h2 className="text-lg font-bold">{item.title}</h2>

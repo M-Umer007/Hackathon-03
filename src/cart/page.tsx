@@ -9,14 +9,14 @@ interface CartItem {
     title: string;
     price: number;
     inventory: number;
-    quantity?: number; // quantity is optional and can be defaulted to 1
+    quantity?: number;
     image: string;
     description?: string;
 }
 
 interface CartContextProps {
     cartItems: CartItem[];
-    addToCart?: (item: CartItem) => void | undefined;
+    addToCart?: (item: CartItem) => void;
     removeFromCart: (item: CartItem) => void;
     clearCart: () => void;
     getCartTotal: () => number;
@@ -25,92 +25,70 @@ interface CartContextProps {
 export const CartContext = createContext<CartContextProps | null>(null);
 
 export const CartProvider = ({ children }: { children: React.ReactNode }) => {
-    const storedCartItems = localStorage.getItem('cartItems');
-    const [cartItems, setCartItems] = useState<CartItem[]>(storedCartItems ? JSON.parse(storedCartItems) : []);
-    const [product, setProduct] = useState<CartItem[]>();
+    const [cartItems, setCartItems] = useState<CartItem[]>([]);
+    const [product, setProduct] = useState<CartItem[]>([]);
 
     useEffect(() => {
+        if (typeof window !== "undefined") {
+            const storedCartItems = localStorage.getItem('cartItems');
+            if (storedCartItems) setCartItems(JSON.parse(storedCartItems));
+        }
+
         const fetchData = async () => {
             const products = await sanityFetch({ query: allProducts });
-
-            setProduct(products)
+            setProduct(products);
         };
 
         fetchData();
     }, []);
 
-
-
     const addToCart = (item: CartItem) => {
-      // Find the product in the products array to access its inventory
-      const productData = product?.find((productItem: CartItem) => productItem._id === item._id);
-  
-      if (!productData) {
-          console.error("Product not found in the products list");
-          return; // Stop execution if the product isn't found
-      }
-  
-      const isItemInCart = cartItems.find((cartItem: CartItem) => cartItem._id === item._id);
-  
-      if (isItemInCart) {
-          // If the item is already in the cart, increase the quantity by 1
-          if (isItemInCart.quantity && isItemInCart.quantity < productData.inventory) {
-              setCartItems(
-                  cartItems.map((cartItem: CartItem) =>
-                      cartItem._id === item._id
-                          ? { ...cartItem, quantity: (cartItem.quantity || 0) + 1 } // Increment quantity
-                          : cartItem)
-                        );
-          } 
-          else {
-              console.log("Cannot add more items. Inventory limit reached.");
-          }
-      } else {
-          // If the item is not in the cart, add it with quantity 1
-          setCartItems([...cartItems, { ...item, quantity: 1 }]);
-      }
-  };
-  
+        const productData = product.find((productItem) => productItem._id === item._id);
+        if (!productData) return;
+
+        const isItemInCart = cartItems.find((cartItem) => cartItem._id === item._id);
+
+        if (isItemInCart) {
+            if (isItemInCart.quantity && isItemInCart.quantity < productData.inventory) {
+                setCartItems(cartItems.map((cartItem) =>
+                    cartItem._id === item._id
+                        ? { ...cartItem, quantity: (cartItem.quantity || 0) + 1 }
+                        : cartItem
+                ));
+            }
+        } else {
+            setCartItems([...cartItems, { ...item, quantity: 1 }]);
+        }
+    };
 
     const removeFromCart = (item: CartItem) => {
-        const isItemInCart = cartItems.find((cartItem: CartItem) => cartItem._id === item._id);
+        const isItemInCart = cartItems.find((cartItem) => cartItem._id === item._id);
 
         if (isItemInCart) {
             if (isItemInCart.quantity === 1) {
-                setCartItems(cartItems.filter((cartItem: CartItem) => cartItem._id !== item._id));
+                setCartItems(cartItems.filter((cartItem) => cartItem._id !== item._id));
             } else {
-                setCartItems(
-                    cartItems.map((cartItem: CartItem) =>
-                        cartItem._id === item._id
-                            ? { ...cartItem, quantity: (cartItem.quantity || 0) - 1 }
-                            : cartItem
-                    )
-                );
+                setCartItems(cartItems.map((cartItem) =>
+                    cartItem._id === item._id
+                        ? { ...cartItem, quantity: (cartItem.quantity || 0) - 1 }
+                        : cartItem
+                ));
             }
         }
     };
 
     const clearCart = () => setCartItems([]);
-
-    const getCartTotal = () => {
-        return cartItems.reduce((total: number, item: CartItem) => total + item.price * (item.quantity || 1), 0);
-    };
+    const getCartTotal = () => cartItems.reduce((total, item) => total + item.price * (item.quantity || 1), 0);
 
     useEffect(() => {
-        localStorage.setItem("cartItems", JSON.stringify(cartItems));
+        if (typeof window !== "undefined") {
+            localStorage.setItem("cartItems", JSON.stringify(cartItems));
+        }
     }, [cartItems]);
 
     return (
-        <CartContext.Provider
-            value={{
-                cartItems,
-                addToCart,
-                removeFromCart,
-                clearCart,
-                getCartTotal,
-            }}
-        >
+        <CartContext.Provider value={{ cartItems, addToCart, removeFromCart, clearCart, getCartTotal }}>
             {children}
         </CartContext.Provider>
     );
-}
+};
