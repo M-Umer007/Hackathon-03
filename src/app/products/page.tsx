@@ -5,9 +5,6 @@
 /* eslint-disable prefer-const */
 /* eslint-disable react-hooks/rules-of-hooks */
 
-
-
-
 import { ourProducts, featuredProducts } from "../../sanity/lib/queries";
 import { sanityFetch } from "../../sanity/lib/fetch";
 import Image from "next/image";

@@ -6,9 +6,6 @@
 /* eslint-disable react-hooks/rules-of-hooks */
 
 
-
-
-
 import {
   topchair,
   ourProducts,
@@ -307,8 +304,6 @@ import { useState, useEffect } from "react";
           ))}
         </div>
       </div>
-
-
       {/* Our Products */}
       <div className="my-20 mx-auto flex flex-col items-center justify-center ">
         <div className="text-start my-10">
@@ -348,8 +343,7 @@ import { useState, useEffect } from "react";
                     Add to Cart
                   </button>
                 </div>
-                </div>
-           
+                </div> 
           ))}
         </div>
 
@@ -387,13 +381,9 @@ import { useState, useEffect } from "react";
                   </button>
                 </div>
                 </div>
-        
           ))}
         </div>
       </div>
-
-
     </div>
-
   );
 }
