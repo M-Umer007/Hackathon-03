@@ -118,272 +118,423 @@ import { useState, useEffect } from "react";
       </div>
 
       {/* Featured Products */}
-      <div className="my-20 mx-auto flex flex-col items-center justify-center ">
-        <div className="text-start my-10">
-          <h1 className="text-2xl sm:text-3xl font-semibold">Our Products</h1>
+      <div className="my-20 mx-auto flex flex-col items-center justify-center">
+  <div className="text-start my-10">
+    <h1 className="text-2xl sm:text-3xl font-semibold">Our Products</h1>
+  </div>
+
+  <div className="flex flex-wrap justify-center gap-10 mx-auto">
+    {ourProd.slice(0, 5).map((product) => (
+      <div
+        key={product._id}
+        className="relative group w-full sm:w-1/4 lg:w-1/4 xl:w-1/5 h-full bg-white shadow-lg rounded-lg overflow-hidden"
+      >
+        <Image
+          src={product.imageUrl}
+          alt={product.title || 'Product Image'}
+          width={200}
+          height={100}
+          className="object-cover w-full h-48"
+        />
+        <div className="p-4 text-center">
+          <h2 className="text-lg font-bold text-gray-800">{product.title}</h2>
+          <p className="text-sm text-gray-600">Price: ${product.price}</p>
+          <p className="text-sm text-gray-600">Stock: {product.inventory}</p>
         </div>
 
-        <div className="flex flex-col sm:flex-row gap-10 mx-auto">
-
-
-  
-            {ourProd.slice(0, 5).map((product) => (
-          
-              <div className="w-full sm:w-1/4 lg:w-1/4 xl:w-1/5 h-full" key={product._id}>
-                <Image
-                  src={product.imageUrl}
-                  alt={product.title || "Product Image"}
-                  width={200}
-                  height={100}
-                  className="object-cover w-full h-full"
-                />
-                <div className="mt-4 text-center">
-                  <h2 className="text-lg font-bold">{product.title}</h2>
-                  <p className="text-sm">Price: ${product.price}</p>
-                  <p className="text-sm">Stock: {product.inventory}</p>
-                  <Link href={`Single-Product/${product._id}`} className="text-blue-500 hover:text-blue-700 font-semibold underline">
-                  Link to full Page
-                  </Link>
-                  <button
-                    onClick={() => addToCart && addToCart({
-                      _id:product._id,
-                      title: product.title,
-                      price: product.price,
-                      inventory: 1, // Or any default quantity
-                      image: product.imageUrl, // Pass the product's image URL
-                      description: product.description,
-                    })}
-                    className="px-4 py-2 bg-gray-800 text-white text-xs font-bold uppercase rounded hover:bg-gray-700 focus:outline-none focus:bg-gray-700"
-                  >
-                    Add to Cart
-                  </button>
-                </div>
-              </div>
-            
-
-            ))}
-
-  
-          </div>
+        {/* Hidden actions on hover */}
+        <div
+          className="absolute top-0 left-0 w-full h-full flex flex-col justify-center items-center bg-black bg-opacity-50 opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+        >
+          <Link
+            href={`Single-Product/${product._id}`}
+            className="text-blue-500 hover:text-blue-700 font-semibold underline mb-2"
+          >
+            Link to full Page
+          </Link>
+          <button
+            onClick={() =>
+              addToCart &&
+              addToCart({
+                _id: product._id,
+                title: product.title,
+                price: product.price,
+                inventory: 1, // Or any default quantity
+                image: product.imageUrl, // Pass the product's image URL
+                description: product.description,
+              })
+            }
+            className="px-4 py-2 bg-gray-800 text-white text-xs font-bold uppercase rounded hover:bg-gray-700 focus:outline-none focus:bg-gray-700"
+          >
+            Add to Cart
+          </button>
         </div>
+      </div>
+    ))}
+  </div>
+</div>
+
   
   
         {/* Top Categories */}
         <div className="my-20 mx-10 gap-10 flex flex-col items-start justify-center">
-          <div className="text-start">
-            <h1 className="text-2xl sm:text-3xl font-bold mb-10">
-              Top Categories
-            </h1>
-          </div>
-  
-          <div className="flex flex-col sm:flex-row gap-10 items-center">
-            {HomepageTopProducts.map((product) => (
-              <div className="w-3/4 sm:w-1/3 h-full" key={product._id}>
-                <div className="">
-                  <Image src={product.imageUrl} alt="Logo" width={400} height={400} />
-                </div>
-                <div className="mt-4 text-center">
-                  <h2 className="text-lg font-bold">{product.title}</h2>
-                  <p className="text-sm">Price: ${product.price}</p>
-                  <p className="text-sm">Stock: {product.inventory}</p>
-                  <Link href={`Single-Product/${product._id}`} className="text-blue-500 hover:text-blue-700 font-semibold underline">
-                  Link to full Page
-                  </Link>
-                  <button
-                    onClick={() => addToCart  && addToCart({
-                      _id:product._id,
-                      title: product.title,
-                      price: product.price,
-                      inventory: 1, // Or any default quantity
-                      image: product.imageUrl, // Pass the product's image URL
-                      description: product.description,
-                      
-                    })}
-                    className="px-4 py-2 bg-gray-800 text-white text-xs font-bold uppercase rounded hover:bg-gray-700 focus:outline-none focus:bg-gray-700"
-                  >
-                    Add to Cart
-                  </button>
-                </div>
-            </div>
-          ))}
+  <div className="text-start">
+    <h1 className="text-2xl sm:text-3xl font-bold mb-10">Top Categories</h1>
+  </div>
+
+  <div className="flex flex-col sm:flex-row gap-10 items-center">
+    {HomepageTopProducts.map((product) => (
+      <div
+        className="w-3/4 sm:w-1/3 h-full relative group" // Added `relative` and `group` for hover effect
+        key={product._id}
+      >
+        <div>
+          <Image src={product.imageUrl} alt="Logo" width={400} height={400} />
+        </div>
+        <div className="mt-4 text-center">
+          <h2 className="text-lg font-bold">{product.title}</h2>
+          <p className="text-sm">Price: ${product.price}</p>
+          <p className="text-sm">Stock: {product.inventory}</p>
+        </div>
+
+        <div
+          className="absolute top-0 left-0 w-full h-full flex flex-col justify-center items-center bg-black bg-opacity-50 opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+        >
+          <Link
+            href={`Single-Product/${product._id}`}
+            className="text-blue-500 hover:text-blue-700 font-semibold underline mb-2"
+          >
+            Link to full Page
+          </Link>
+          <button
+            onClick={() =>
+              addToCart &&
+              addToCart({
+                _id: product._id,
+                title: product.title,
+                price: product.price,
+                inventory: 1, // Or any default quantity
+                image: product.imageUrl, // Pass the product's image URL
+                description: product.description,
+              })
+            }
+            className="px-4 py-2 bg-gray-800 text-white text-xs font-bold uppercase rounded hover:bg-gray-700 focus:outline-none focus:bg-gray-700"
+          >
+            Add to Cart
+          </button>
         </div>
       </div>
+    ))}
+  </div>
+</div>
 
-      {/* Explore New and popular Styles */}
-      <div className="flex flex-col sm:flex-row gap-10 mx-10 my-20">
-        {/* Left Div with one image */}
-        <div className="w-full sm:w-1/2">
-          <div>
-            <p className="text-2xl sm:text-3xl font-bold mb-10">
-              EXPLORE NEW AND POPULAR STYLES
-            </p>
-          </div>
-          <div>
-            {(() => {
-             const product = NewandPopularStyles.find((product) => 
-              product._id === "YTjpX7gIRs7VphrWQPXwtc");
 
-              return product ? (
-                <div>
-                  <div>
-                    <Image
-                      src={product.imageUrl} // Replace with your correct image field if necessary
-                      alt="Large Image"
-                      width={400}
-                      height={400}
-                      className="object-cover w-full h-full"
-                    />
-                  </div>
-                  <div className="mt-4 text-center">
-                  <h2 className="text-lg font-bold">{product.title}</h2>
-                  <p className="text-sm">Price: ${product.price}</p>
-                  <p className="text-sm">Stock: {product.inventory}</p>
-                  <Link href={`Single-Product/${product._id}`} className="text-blue-500 hover:text-blue-700 font-semibold underline">
-                  Link to full Page
-                  </Link>
-                  <button
-                    onClick={() => addToCart  && addToCart({
-                      _id:product._id,
+    {/* Explore New and Popular Styles */}
+{/* Explore New and Popular Styles */}
+<div className="flex flex-col sm:flex-row gap-10 mx-10 my-20">
+  {/* Left Div with one image */}
+  <div className="w-full sm:w-1/2">
+    <div>
+      <p className="text-2xl sm:text-3xl font-bold mb-10 text-center text-gray-800">
+        EXPLORE NEW AND POPULAR STYLES
+      </p>
+    </div>
+    <div>
+      {(() => {
+        const product = NewandPopularStyles.find(
+          (product) => product._id === "YTjpX7gIRs7VphrWQPXwtc"
+        );
+
+        return product ? (
+          <div className="bg-white shadow-xl rounded-lg p-6 overflow-hidden">
+            <div>
+              <Image
+                src={product.imageUrl}
+                alt="Large Image"
+                width={400}
+                height={400}
+                className="object-cover w-full h-72 rounded-lg"
+              />
+            </div>
+            <div className="mt-6 text-center">
+              <h2 className="text-2xl font-semibold text-gray-800">{product.title}</h2>
+              <p className="text-sm text-gray-600">Price: ${product.price}</p>
+              <p className="text-sm text-gray-600">Stock: {product.inventory}</p>
+              <div className="mt-4 space-x-4">
+                <Link
+                  href={`Single-Product/${product._id}`}
+                  className="text-blue-600 hover:text-blue-800 font-semibold underline"
+                >
+                  View Full Product Page
+                </Link>
+                <button
+                  onClick={() =>
+                    addToCart &&
+                    addToCart({
+                      _id: product._id,
                       title: product.title,
                       price: product.price,
-                      inventory: 1, // Or any default quantity
-                      image: product.imageUrl, // Pass the product's image URL
+                      inventory: 1,
+                      image: product.imageUrl,
                       description: product.description,
-                    })}
-                    className="px-4 py-2 bg-gray-800 text-white text-xs font-bold uppercase rounded hover:bg-gray-700 focus:outline-none focus:bg-gray-700"
-                  >
-                    Add to Cart
-                  </button>
-                </div>
-                </div>
-              ) : (
-                <p>Product not found</p>
-              );
-            })()}
-          </div>
-
-
-        </div>
-
-        {/* Right Div with 4 images */}
-        <div className="w-full sm:w-1/2 grid grid-cols-2 sm:grid-cols-2 grid-rows-2 sm:grid-rows-2 gap-2">
-          {NewandPopularStyles.map((product) => (
-            <div key={product._id}>
-              
-              <div>
-                <Image
-                  src={product.imageUrl} // Replace with your image path
-                  alt="Image 1"
-                  width={200}
-                  height={200}
-                  className="object-cover w-full h-full"
-                />
+                    })
+                  }
+                  className="px-4 py-2 bg-green-600 text-white text-xs font-bold uppercase rounded hover:bg-green-500 focus:outline-none focus:bg-green-500"
+                >
+                  Add to Cart
+                </button>
               </div>
-              <div className="mt-4 text-center">
-                  <h2 className="text-lg font-bold">{product.title}</h2>
-                  <p className="text-sm">Price: ${product.price}</p>
-                  <p className="text-sm">Stock: {product.inventory}</p>
-                  <Link href={`Single-Product/${product._id}`} className="text-blue-500 hover:text-blue-700 font-semibold underline">
-                  Link to full Page
-                  </Link>
-                  <button
-                    onClick={() => addToCart  && addToCart({
-                      _id:product._id,
-                      title: product.title,
-                      price: product.price,
-                      inventory: 1, // Or any default quantity
-                      image: product.imageUrl, // Pass the product's image URL
-                      description: product.description,
-                    })}
-                    className="px-4 py-2 bg-gray-800 text-white text-xs font-bold uppercase rounded hover:bg-gray-700 focus:outline-none focus:bg-gray-700"
-                  >
-                    Add to Cart
-                  </button>
-                </div>
             </div>
-          ))}
+          </div>
+        ) : (
+          <p>Product not found</p>
+        );
+      })()}
+    </div>
+  </div>
+
+  {/* Right Div with 4 images */}
+  <div className="w-full sm:w-1/2 grid grid-cols-2 sm:grid-cols-2 grid-rows-2 sm:grid-rows-2 gap-6">
+    {NewandPopularStyles.map((product) => (
+      <div
+        key={product._id}
+        className="relative group w-full h-72 bg-white rounded-lg shadow-lg overflow-hidden hover:shadow-2xl transition-shadow duration-300"
+      >
+        <div className="w-full h-full relative group">
+          <Image
+            src={product.imageUrl}
+            alt="Product Image"
+            width={200}
+            height={200}
+            className="object-cover w-full h-full transition-transform duration-300 group-hover:scale-110"
+          />
+        </div>
+        {/* Hidden actions on hover */}
+        <div className="absolute inset-0 bg-black bg-opacity-60 flex flex-col items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+          <h2 className="text-white font-bold text-lg mb-2">{product.title}</h2>
+          <p className="text-white text-sm mb-2">Price: ${product.price}</p>
+          <Link
+            href={`Single-Product/${product._id}`}
+            className="text-white text-sm mb-2 px-4 py-2 bg-blue-600 rounded hover:bg-blue-500"
+          >
+            View Full Product Page
+          </Link>
+          <button
+            onClick={() =>
+              addToCart &&
+              addToCart({
+                _id: product._id,
+                title: product.title,
+                price: product.price,
+                inventory: 1,
+                image: product.imageUrl,
+                description: product.description,
+              })
+            }
+            className="px-4 py-2 bg-green-600 text-white text-sm font-bold uppercase rounded hover:bg-green-500"
+          >
+            Add to Cart
+          </button>
         </div>
       </div>
+    ))}
+  </div>
+</div>
+
+
+
+
+
+
+
       {/* Our Products */}
-      <div className="my-20 mx-auto flex flex-col items-center justify-center ">
-        <div className="text-start my-10">
-          <h1 className="text-2xl sm:text-3xl font-semibold">Our Products</h1>
-        </div>
+      <div className="my-20 mx-auto flex flex-col items-center justify-center">
+  {/* Section Title */}
+  <div className="text-start my-10">
+    <h1 className="text-2xl sm:text-3xl font-semibold text-center">Our Products</h1>
+  </div>
 
-        <div className="flex flex-col sm:flex-row gap-10 mx-auto">
-          {ourProd.slice(0, 4).map((product) => (
-            <div className="w-full sm:w-1/4 lg:w-1/4 xl:w-1/5 " key={product._id}>
-              <div>
-                <Image
-                  src={product.imageUrl}
-                  alt={product.title || "Product Image"}
-                  width={300}
-                  height={300}
-                  className="object-cover w-full h-full"
-                />
-              </div>
-              <div className="mt-4 text-center">
-                  <h2 className="text-lg font-bold">{product.title}</h2>
-                  <p className="text-sm">Price: ${product.price}</p>
-                  <p className="text-sm">Stock: {product.inventory}</p>
-                  <Link href={`Single-Product/${product._id}`} className="text-blue-500 hover:text-blue-700 font-semibold underline">
-                  Link to full Page
-                  </Link>
-                  <button
-                    onClick={() => addToCart  && addToCart({
-                      _id:product._id,
+  {/* Product Grid */}
+  <div className="flex flex-col sm:flex-row gap-10 mx-auto">
+    {/* First Row */}
+    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+      {ourProd.slice(0, 4).map((product) => (
+        <div
+          key={product._id}
+          className="w-full bg-white border rounded-lg shadow-md overflow-hidden relative group"
+        >
+          {/* Image */}
+          <div>
+            <Image
+              src={product.imageUrl}
+              alt={product.title || "Product Image"}
+              width={300}
+              height={300}
+              className="object-cover w-full h-72"
+            />
+          </div>
+
+          {/* Product Info */}
+          <div className="p-4 text-center">
+            <h2 className="text-lg font-semibold">{product.title}</h2>
+            <p className="text-sm text-gray-700">Price: ${product.price}</p>
+            <p className="text-sm text-gray-700">Stock: {product.inventory}</p>
+            <div className="mt-4 space-x-4 block md:hidden">
+              {/* Full Page Link */}
+              <Link
+                href={`Single-Product/${product._id}`}
+                className="text-blue-600 font-semibold underline text-sm"
+              >
+                Full Page
+              </Link>
+
+              {/* Add to Cart Button */}
+              <button
+                onClick={() =>
+                  addToCart &&
+                  addToCart({
+                    _id: product._id,
+                    title: product.title,
+                    price: product.price,
+                    inventory: 1,
+                    image: product.imageUrl,
+                    description: product.description,
+                  })
+                }
+                className="px-4 py-2 bg-gray-800 text-white text-xs font-bold uppercase rounded hover:bg-gray-700 focus:outline-none focus:bg-gray-700"
+              >
+                Add to Cart
+              </button>
+            </div>
+          </div>
+
+          {/* Hover Effect for Large Screens */}
+          <div className="absolute inset-0 bg-black bg-opacity-30 opacity-0 group-hover:opacity-100 transition-opacity duration-300 ease-in-out flex justify-center items-center">
+          <div className="hidden md:block">
+            <div className="mt-4 space-x-4">
+                {/* Full Page Link */}
+                <Link
+                  href={`Single-Product/${product._id}`}
+                  className="text-blue-600 font-semibold underline text-sm"
+                >
+                  Full Page
+                </Link>
+                {/* Add to Cart Button */}
+                <button
+                  onClick={() =>
+                    addToCart &&
+                    addToCart({
+                      _id: product._id,
                       title: product.title,
                       price: product.price,
-                      inventory: 1, // Or any default quantity
-                      image: product.imageUrl, // Pass the product's image URL
+                      inventory: 1,
+                      image: product.imageUrl,
                       description: product.description,
-                    })}
-                    className="px-4 py-2 bg-gray-800 text-white text-xs font-bold uppercase rounded hover:bg-gray-700 focus:outline-none focus:bg-gray-700"
-                  >
-                    Add to Cart
-                  </button>
-                </div>
-                </div> 
-          ))}
-        </div>
-
-        <div className="flex flex-col sm:flex-row gap-10 mx-auto mt-10">
-          {ourProd.slice(5, 10).map((product) => (
-            <div className="w-full sm:w-1/4 lg:w-1/4 xl:w-1/5 " key={product._id}>
-              <div>
-                <Image
-                  src={product.imageUrl}
-                  alt={product.title || "Product Image"}
-                  width={300}
-                  height={300}
-                  className="object-cover w-full h-full"
-                />
+                    })
+                  }
+                  className="px-4 py-2 bg-gray-800 text-white text-xs font-bold uppercase rounded hover:bg-gray-700 focus:outline-none focus:bg-gray-700"
+                >
+                  Add to Cart
+                </button>
               </div>
-              <div className="mt-4 text-center">
-                  <h2 className="text-lg font-bold">{product.title}</h2>
-                  <p className="text-sm">Price: ${product.price}</p>
-                  <p className="text-sm">Stock: {product.inventory}</p>
-                  <Link href={`Single-Product/${product._id}`} className="text-blue-500 hover:text-blue-700 font-semibold underline">
-                  Link to full Page
-                  </Link>
-                  <button
-                    onClick={() => addToCart  && addToCart({
-                      _id:product._id,
+          </div>
+          </div>
+        </div>
+      ))}
+    </div>
+  </div>
+
+  {/* Second Row */}
+  <div className="flex flex-col sm:flex-row gap-10 mx-auto mt-10">
+    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+      {ourProd.slice(5, 10).map((product) => (
+        <div
+          key={product._id}
+          className="w-full bg-white border rounded-lg shadow-md overflow-hidden relative group"
+        >
+          {/* Image */}
+          <div>
+            <Image
+              src={product.imageUrl}
+              alt={product.title || "Product Image"}
+              width={300}
+              height={300}
+              className="object-cover w-full h-72"
+            />
+          </div>
+
+          {/* Product Info */}
+          <div className="p-4 text-center">
+            <h2 className="text-lg font-semibold">{product.title}</h2>
+            <p className="text-sm text-gray-700">Price: ${product.price}</p>
+            <p className="text-sm text-gray-700">Stock: {product.inventory}</p>
+            <div className="mt-4 space-x-4 block md:hidden">
+              {/* Full Page Link */}
+              <Link
+                href={`Single-Product/${product._id}`}
+                className="text-blue-600 font-semibold underline text-sm"
+              >
+                Full Page
+              </Link>
+
+              {/* Add to Cart Button */}
+              <button
+                onClick={() =>
+                  addToCart &&
+                  addToCart({
+                    _id: product._id,
+                    title: product.title,
+                    price: product.price,
+                    inventory: 1,
+                    image: product.imageUrl,
+                    description: product.description,
+                  })
+                }
+                className="px-4 py-2 bg-gray-800 text-white text-xs font-bold uppercase rounded hover:bg-gray-700 focus:outline-none focus:bg-gray-700"
+              >
+                Add to Cart
+              </button>
+            </div>
+          </div>
+
+          {/* Hover Effect for Large Screens */}
+          <div className="absolute inset-0 bg-black bg-opacity-30 opacity-0 group-hover:opacity-100 transition-opacity duration-300 ease-in-out flex justify-center items-center">
+          <div className="hidden md:block">
+            <div className="mt-4 space-x-4">
+                {/* Full Page Link */}
+                <Link
+                  href={`Single-Product/${product._id}`}
+                  className="text-blue-600 font-semibold underline text-sm"
+                >
+                  Full Page
+                </Link>
+                {/* Add to Cart Button */}
+                <button
+                  onClick={() =>
+                    addToCart &&
+                    addToCart({
+                      _id: product._id,
                       title: product.title,
                       price: product.price,
-                      inventory: 1, // Or any default quantity
-                      image: product.imageUrl, // Pass the product's image URL
+                      inventory: 1,
+                      image: product.imageUrl,
                       description: product.description,
-                    })}
-                    className="px-4 py-2 bg-gray-800 text-white text-xs font-bold uppercase rounded hover:bg-gray-700 focus:outline-none focus:bg-gray-700"
-                  >
-                    Add to Cart
-                  </button>
-                </div>
-                </div>
-          ))}
+                    })
+                  }
+                  className="px-4 py-2 bg-gray-800 text-white text-xs font-bold uppercase rounded hover:bg-gray-700 focus:outline-none focus:bg-gray-700"
+                >
+                  Add to Cart
+                </button>
+              </div>
+          </div>
+          </div>
         </div>
-      </div>
+      ))}
+    </div>
+  </div>
+</div>
+
+
     </div>
   );
 }

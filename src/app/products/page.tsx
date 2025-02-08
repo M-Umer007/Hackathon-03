@@ -56,76 +56,85 @@ export default function Home() {
     <div>
       <h1 className="text-2xl font-semibold text-center m-10">All Products</h1>
 
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-        {products.length ? (
-          products.map((product) => (
-            <div
-              key={product._id}
-              className="p-6 border-2 border-black rounded-lg shadow-lg hover:shadow-xl transition-all duration-300"
-            >
-              <h1 className="text-2xl font-semibold">{product.title}</h1>
-              <div className="flex justify-center sm:justify-start mt-4">
-                <div className="w-full sm:w-1/3 mx-auto">
-                  <Image
-                    src={product.imageUrl}
-                    alt={product.title}
-                    width={800}
-                    height={800}
-                    className="rounded-lg shadow-md"
-                  />
-                </div>
-              </div>
-              <div className="mt-6 flex justify-between items-center">
-                <button
-                  onClick={() => addToCart&&addToCart({
-                    _id:product._id,
-                    title: product.title,
-                    price: product.price,
-                    inventory: 1, // Or any default quantity
-                    image: product.imageUrl, // Pass the product's image URL
-                    description: product.description,
-                  })}
-                  className="px-4 py-2 bg-gray-800 text-white text-xs font-bold uppercase rounded hover:bg-gray-700 focus:outline-none focus:bg-gray-700"
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+  {products.length ? (
+    products.map((product) => (
+      <div
+        key={product._id}
+        className="relative p-6 border border-gray-300 rounded-lg shadow-lg hover:shadow-2xl transition-shadow duration-300 ease-in-out transform hover:scale-105 group"
+      >
+        {/* Image Section */}
+        <div className="flex justify-center mb-4">
+          <div className="w-48 h-48 overflow-hidden rounded-lg shadow-md group-hover:scale-110 transition-transform duration-300">
+            <Image
+              src={product.imageUrl}
+              alt={product.title}
+              width={800}
+              height={800}
+              className="w-full h-full object-cover"
+            />
+          </div>
+        </div>
+
+        {/* Title and Description */}
+        <h2 className="text-xl font-semibold text-gray-800">{product.title}</h2>
+        <p className="text-sm text-gray-600 mt-2 line-clamp-3">{product.description}</p>
+
+        {/* Price and Stock */}
+        <div className="flex justify-between items-center mt-4">
+          <p className="text-lg font-bold text-gray-900">${product.price}</p>
+          {product.priceWithoutDiscount && (
+            <p className="text-sm line-through text-gray-500">
+              Was ${product.priceWithoutDiscount}
+            </p>
+          )}
+        </div>
+
+        <div className="flex justify-between items-center mt-2">
+          <p className="text-sm text-gray-600">{product.inventory} in stock</p>
+          {product.tags && (
+            <div className="flex gap-2">
+              {product.tags.map((tag, index) => (
+                <span
+                  key={index}
+                  className="bg-gray-200 text-xs py-1 px-2 rounded-full text-gray-700"
                 >
-                  Add to Cart
-                </button>
-                <Link href={`Single-Product/${product._id}`} className="text-blue-500 hover:text-blue-700 font-semibold underline">
-                  Link to full Page
-                  </Link>
-              </div>
-              <p className="text-gray-700 mt-4">{product.description}</p>
-              <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mt-4">
-                <p className="text-lg font-bold">${product.price}</p>
-                {product.priceWithoutDiscount && (
-                  <p className="text-sm line-through text-gray-500">
-                    Was ${product.priceWithoutDiscount}
-                  </p>
-                )}
-                <p className="text-sm text-gray-600">{product.inventory} in stock</p>
-              </div>
-              {product.tags && (
-                <div className="flex gap-2 mt-4">
-                  {product.tags.map((tag, index) => (
-                    <span
-                      key={index}
-                      className="bg-gray-200 text-sm py-1 px-2 rounded-full"
-                    >
-                      {tag}
-                    </span>
-                  ))}
-                </div>
-              )}
-              {product.category && (
-                <p className="text-sm text-gray-600 mt-4">
-                  Category: {product.category.title}
-                </p>
-              )}
+                  {tag}
+                </span>
+              ))}
             </div>
-          ))
-        ) : (
-          <p>No products available.</p>
-        )}
+          )}
+        </div>
+
+        {/* Buttons */}
+        <div className="mt-4 flex justify-between items-center">
+          <button
+            onClick={() => addToCart && addToCart({
+              _id: product._id,
+              title: product.title,
+              price: product.price,
+              inventory: 1,
+              image: product.imageUrl,
+              description: product.description,
+            })}
+            className="px-4 py-2 bg-gray-800 text-white text-xs font-bold uppercase rounded hover:bg-gray-700 focus:outline-none focus:bg-gray-700"
+          >
+            Add to Cart
+          </button>
+          <Link
+            href={`Single-Product/${product._id}`}
+            className="text-blue-500 hover:text-blue-700 font-semibold text-xs underline"
+          >
+            Full Page
+          </Link>
+        </div>
       </div>
+    ))
+  ) : (
+    <p>No products available.</p>
+  )}
+</div>
+
     </div>
   );
 }
